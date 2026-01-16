@@ -1,0 +1,3 @@
+[submodule "thirdparty/zebar"]
+	path = thirdparty/zebar
+	url = https://github.com/DarcJC/zebar.git

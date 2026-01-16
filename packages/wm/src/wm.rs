@@ -593,6 +593,12 @@ impl WindowManager {
           _ => Ok(()),
         }
       }
+      InvokeCommand::StartBuiltin { name } => {
+        wm_builtin::start_builtin(name)
+      }
+      InvokeCommand::StopBuiltin { name } => {
+        wm_builtin::stop_builtin(name)
+      }
       InvokeCommand::ToggleFloating {
         centered,
         shown_on_top,

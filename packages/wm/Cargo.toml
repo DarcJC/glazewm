@@ -12,6 +12,7 @@ name = "glazewm"
 path = "src/main.rs"
 
 [features]
+with_zebar = ["wm-builtin/build_zebar"]
 ui_access = []
 
 [build-dependencies]
@@ -34,8 +35,10 @@ tracing-appender = "0.2"
 tracing-subscriber = { workspace = true }
 tray-icon = "0.20"
 uuid = { workspace = true }
+wm-builtin = { workspace = true }
 wm-common = { path = "../wm-common" }
 wm-cli = { path = "../wm-cli" }
 wm-platform = { path = "../wm-platform" }
 wm-ipc-client = { path = "../wm-ipc-client" }
 wm-macros.workspace = true
+

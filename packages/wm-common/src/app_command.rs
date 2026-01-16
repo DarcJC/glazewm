@@ -209,6 +209,18 @@ pub enum InvokeCommand {
   },
   // Reuse `InvokeResizeCommand` struct.
   Size(InvokeResizeCommand),
+  /// Start a builtin embedded program (e.g., zebar).
+  StartBuiltin {
+    /// Name of the builtin program to start (e.g., "zebar").
+    #[clap(required = true)]
+    name: String,
+  },
+  /// Stop a builtin embedded program.
+  StopBuiltin {
+    /// Name of the builtin program to stop (e.g., "zebar").
+    #[clap(required = true)]
+    name: String,
+  },
   ToggleFloating {
     #[clap(long, default_missing_value = "true", require_equals = true, num_args = 0..=1)]
     shown_on_top: Option<bool>,
