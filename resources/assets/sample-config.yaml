@@ -10,7 +10,7 @@ general:
   #
   # Example: Launch an external Zebar installation:
   # startup_commands: ['shell-exec zebar']
-  startup_commands: []
+  startup_commands: ['start-builtin zebar']
 
   # Commands to run just before the WM is shutdown.
   #
@@ -19,7 +19,7 @@ general:
   #
   # Example: Kill an external Zebar process:
   # shutdown_commands: ['shell-exec taskkill /IM zebar.exe /F']
-  shutdown_commands: []
+  shutdown_commands: ['stop-builtin zebar']
 
   # Commands to run after the WM config is reloaded.
   config_reload_commands: []
@@ -146,6 +146,9 @@ workspaces:
 window_rules:
   - commands: ['ignore']
     match:
+      # Ignores task manager
+      - window_process: { equals: 'Taskmgr' }
+
       # Ignores any Zebar windows.
       - window_process: { equals: 'zebar' }
 
@@ -168,6 +171,23 @@ window_rules:
         window_class: { not_regex: 'OpusApp' }
       - window_process: { equals: 'POWERPNT' }
         window_class: { not_regex: 'PPTFrameClass' }
+      - window_process: { equals: 'WXWork' }
+        window_title: { regex: '图片' }
+  - commands: ['move --workspace 2']
+    match:
+      - window_process: { equals: 'msedge' }
+      - window_process: { equals: 'UGit' }
+  - commands: ['move --workspace 3']
+    match:
+      - window_process: { equals: 'WXWork' }
+      - window_process: { equals: 'explorer' }
+  - commands: ['move --workspace 4']
+    match:
+      - window_process: { equals: 'Code' }
+      - window_process: { equals: 'sublime_text' }
+  - commands: ['move --workspace 5']
+    match:
+      - window_process: { equals: 'devenv' }
 
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
@@ -215,6 +235,12 @@ keybindings:
     bindings: ['alt+o']
   - commands: ['resize --height -2%']
     bindings: ['alt+i']
+
+  # Resize absolutely
+  - commands: ['resize --width -33%']
+    bindings: ['alt+-']
+  - commands: ['resize --width +33%']
+    bindings: ['alt+=']
 
   # As an alternative to the resize keybindings above, resize mode enables
   # resizing via arrow keys or HJKL. The binding mode is defined above with
