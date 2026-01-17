@@ -107,6 +107,17 @@ fn build_zebar(zebar_dir: &PathBuf, out_dir: &PathBuf) {
     let mut cargo_args = vec!["build", "-p", "zebar"];
     if !release_flag.is_empty() {
         cargo_args.push(release_flag);
+        // IMPORTANT: Enable custom-protocol feature for release builds.
+        // Without this, the Tauri WebView will fail to load embedded assets
+        // and show "localhost connection refused" errors when opening
+        // settings or any UI windows.
+        cargo_args.push("--features");
+        cargo_args.push("custom-protocol");
+        println!("cargo:warning=Building zebar in RELEASE mode with 'custom-protocol' feature enabled.");
+        println!("cargo:warning=This embeds the frontend assets into the binary for proper UI functionality.");
+    } else {
+        println!("cargo:warning=Building zebar in DEBUG mode (no custom-protocol feature).");
+        println!("cargo:warning=Note: Debug builds require the dev server running at http://localhost:4200");
     }
 
     let cargo_build = Command::new("cargo")
