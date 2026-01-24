@@ -24,7 +24,7 @@ use crate::{
       resize_window, set_window_position, set_window_size,
       update_window_state, WindowPositionTarget,
     },
-    workspace::{focus_workspace, move_workspace_in_direction},
+    workspace::{focus_workspace, move_workspace_in_direction, move_workspace_to_monitor},
   },
   events::{
     handle_display_settings_changed, handle_mouse_move,
@@ -405,11 +405,17 @@ impl WindowManager {
           _ => Ok(()),
         }
       }
-      InvokeCommand::MoveWorkspace { direction } => {
+      InvokeCommand::MoveWorkspace(args) => {
         let workspace =
           subject_container.workspace().context("No workspace.")?;
 
-        move_workspace_in_direction(&workspace, direction, state, config)
+        if let Some(direction) = &args.direction {
+          move_workspace_in_direction(&workspace, direction, state, config)
+        } else if let Some(monitor_index) = args.monitor {
+          move_workspace_to_monitor(&workspace, monitor_index, state, config)
+        } else {
+          Ok(())
+        }
       }
       InvokeCommand::Position(args) => {
         match subject_container.as_window_container() {

@@ -161,10 +161,7 @@ pub enum InvokeCommand {
   Focus(InvokeFocusCommand),
   Ignore,
   Move(InvokeMoveCommand),
-  MoveWorkspace {
-    #[clap(long)]
-    direction: Direction,
-  },
+  MoveWorkspace(InvokeMoveWorkspaceCommand),
   Position(InvokePositionCommand),
   Resize(InvokeResizeCommand),
   SetFloating {
@@ -422,4 +419,16 @@ pub struct InvokePositionCommand {
 
   #[clap(long, allow_hyphen_values = true)]
   pub y_pos: Option<i32>,
+}
+
+#[derive(Args, Clone, Debug, PartialEq, Serialize)]
+#[group(required = true, multiple = false)]
+pub struct InvokeMoveWorkspaceCommand {
+  /// Direction to move the workspace (to adjacent monitor).
+  #[clap(long)]
+  pub direction: Option<Direction>,
+
+  /// Index of the target monitor (0-based).
+  #[clap(long)]
+  pub monitor: Option<usize>,
 }
